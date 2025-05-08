@@ -1,0 +1,12 @@
+<div>
+  <div class="listings-page">
+    <h1>Listings Page</h1>
+    <div class="listings">
+      <div *ngFor="let listing of listings" class="listing">
+        <a [routerLink]="['/listing', listing.id]">
+          <h2>{{ listing.name }}</h2>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
