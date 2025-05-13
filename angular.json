@@ -73,7 +73,8 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "proxyConfig": "proxy.config.json"
+            "buildTarget": "buy-and-sell-frontend:build",
+            "proxyConfig": "src/proxy.conf.json"
           }
         },
         "extract-i18n": {
