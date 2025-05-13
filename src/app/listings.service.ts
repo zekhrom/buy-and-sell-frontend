@@ -1,29 +1,42 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../environments/environment';
+import { AuthService } from './auth.service';
 import { Listing } from './models/Listing.model';
+
+const httpOptions = (token: string) => ({
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  },
+});
 
 @Injectable({
   providedIn: 'root',
 })
 export class ListingsService {
-  baseUrl = environment.apiUrl || 'http://localhost:3000/api';
-  httpOptions = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
+  httpOptions: { headers?: HttpHeaders | Record<string, string | string[]> } = {
+    headers: { 'Content-Type': 'application/json' },
   };
-  constructor(private client: HttpClient) {}
+  constructor(private client: HttpClient, private authService: AuthService) {
+    this.authService.getAccessToken()?.then((token) => {
+      this.httpOptions = {
+        headers: {
+          ...this.httpOptions.headers,
+          Authorization: `Bearer ${token}`,
+        },
+      };
+    });
+  }
 
   getListings(): Observable<Listing[]> {
     // Simulate an API call to fetch listings
-    return this.client.get<Listing[]>(`/api/listings`);
+    return this.client.get<Listing[]>(`/api/listings`, this.httpOptions);
   }
 
   getListing(id: number): Observable<Listing> {
     // Simulate an API call to fetch a single listing by ID
-    return this.client.get<Listing>(`/api/listings/${id}`);
+    return this.client.get<Listing>(`/api/listings/${id}`, this.httpOptions);
   }
 
   addViewToListing(id: number): Observable<Listing> {

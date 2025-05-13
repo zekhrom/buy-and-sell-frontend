@@ -1,14 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy } from '@angular/core';
-import {
-  Auth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  user,
-  User,
-} from '@angular/fire/auth';
+import { Auth, GoogleAuthProvider, user, User } from '@angular/fire/auth';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +20,7 @@ export class AppComponent implements OnDestroy {
   isLoading = false;
   errorMessage = '';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
     this.userSubscription = this.user$.subscribe((aUser: User | null) => {
       //handle user state changes here. Note, that user will be null if there is no currently logged in user.
       console.log(aUser);
@@ -33,29 +28,23 @@ export class AppComponent implements OnDestroy {
   }
 
   signIn() {
-    signInWithPopup(this.auth, this.googleProvider).then(
-      (result) => {
-        console.log('User signed in:', result.user);
-        // this.router.navigateByUrl('/my-listings');
-        console.log('User signed in:', this.user$);
-      },
-      (error) => {
-        console.error('Error signing in:', error);
+    this.isLoading = true;
+    this.authService
+      .logInGoogleUser()
+      .then(() => {
+        this.router.navigateByUrl('/my-listings');
+        this.isLoading = false;
+      })
+      .catch((error) => {
         this.errorMessage = error.message;
         this.isLoading = false;
-      }
-    );
-    // this.auth.(new firebase.GoogleAuthProvider()).then(
-    //   (result) => {
-    //     console.log('User signed in:', result.user);
-    //   },
-    //   (error) => {
-    //     console.error('Error signing in:', error);
-    //   }
-    // );
+        console.error('Error signing in:', error);
+      });
   }
+
   signOut() {
-    this.auth.signOut().then(() => {
+    this.authService.logOutUser().then(() => {
+      this.router.navigateByUrl('/');
       console.log('User signed out');
     });
   }

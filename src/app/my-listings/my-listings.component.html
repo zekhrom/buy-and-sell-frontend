@@ -1,6 +1,7 @@
 <div>
   <div class="container">
     <h1>My Listings</h1>
+    <a [routerLink]="['/add-listing']" class="action-button">Add</a>
     <div class="listings-container">
       <div *ngFor="let listing of listings" class="listing-card">
         <a [routerLink]="['/listings', listing.id]" class="listing-content">
@@ -9,7 +10,6 @@
           <p>Price: {{ listing.price | currency }}</p>
         </a>
         <div class="listing-actions">
-          <a [routerLink]="['/add-listing']" class="action-button">Add</a>
           <a [routerLink]="['/edit-listing', listing.id]" class="action-button"
             >Edit</a
           >

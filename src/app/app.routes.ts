@@ -42,4 +42,11 @@ export const routes: Routes = [
         (m) => m.NewListingComponent
       ),
   },
+  {
+    path: 'add-listing',
+    loadComponent: () =>
+      import('./new-listing/new-listing.component').then(
+        (m) => m.NewListingComponent
+      ),
+  },
 ];
