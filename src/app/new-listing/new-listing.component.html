@@ -1,0 +1,52 @@
+@if (isLoading) {
+<div class="loading-spinner">
+  <p>Loading...</p>
+</div>
+} @else {
+<div class="new-listing-container">
+  <h1>{{ id ? "Edit" : "New" }} Listing</h1>
+  <form #editListingForm="ngForm" class="new-listing-form">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        class="form-control"
+        [(ngModel)]="name"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        name="description"
+        class="form-control"
+        [(ngModel)]="description"
+        required
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="price">Price</label>
+      <input
+        type="number"
+        id="price"
+        name="price"
+        class="form-control"
+        [(ngModel)]="price"
+        required
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary" (click)="onSubmit()">
+      Save
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+      Cancel
+    </button>
+  </form>
+</div>
+}

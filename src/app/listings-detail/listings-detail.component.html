@@ -1,1 +1,16 @@
-<p>listings-detail works!</p>
+@if (isLoading) {
+<div class="loading-spinner">
+  <p>Loading...</p>
+</div>
+} @else {
+<div class="listing-details-container">
+  <span>This listing has been viewed {{ listing?.views }} times</span>
+  <h1>{{ listing?.name }}</h1>
+  <p><strong>Description:</strong> {{ listing?.description }}</p>
+  <p><strong>Price:</strong> ${{ listing?.price }}</p>
+
+  <!-- <button class="btn btn-primary" (click)="editListing()">Edit</button>
+  <button class="btn btn-danger" (click)="deleteListing()">Delete</button>
+  <button class="btn btn-secondary" (click)="goBack()">Back</button> -->
+</div>
+}
