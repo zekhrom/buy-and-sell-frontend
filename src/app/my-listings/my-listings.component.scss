@@ -24,6 +24,7 @@
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   padding: 8px;
+  max-width: 400px;
 
   &:hover {
     transform: translateY(-5px);

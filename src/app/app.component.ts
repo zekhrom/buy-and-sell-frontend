@@ -23,7 +23,7 @@ export class AppComponent implements OnDestroy {
   constructor(private router: Router, private authService: AuthService) {
     this.userSubscription = this.user$.subscribe((aUser: User | null) => {
       //handle user state changes here. Note, that user will be null if there is no currently logged in user.
-      console.log(aUser);
+      console.log('aUser', aUser);
     });
   }
 
