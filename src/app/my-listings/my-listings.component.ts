@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Listing } from '../models/Listing.model';
-import { ListingsService } from '../listings.service';
-import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { ListingsService } from '../listings.service';
+import { Listing } from '../models/Listing.model';
 
 @Component({
   selector: 'app-my-listings',
@@ -18,7 +18,7 @@ export class MyListingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.listingService.getListingsByUserId(1).subscribe((listings) => {
+    this.listingService.getListingsByUserId().subscribe((listings) => {
       this.listings = listings;
       this.isLoading = false;
     });

@@ -18,16 +18,7 @@ export class ListingsService {
   httpOptions: { headers?: HttpHeaders | Record<string, string | string[]> } = {
     headers: { 'Content-Type': 'application/json' },
   };
-  constructor(private client: HttpClient, private authService: AuthService) {
-    this.authService.getAccessToken()?.then((token) => {
-      this.httpOptions = {
-        headers: {
-          ...this.httpOptions.headers,
-          Authorization: `Bearer ${token}`,
-        },
-      };
-    });
-  }
+  constructor(private client: HttpClient, private authService: AuthService) {}
 
   getListings(): Observable<Listing[]> {
     // Simulate an API call to fetch listings
@@ -48,9 +39,9 @@ export class ListingsService {
     );
   }
 
-  getListingsByUserId(userId: number): Observable<Listing[]> {
-    // Simulate an API call to fetch listings by user ID
-    return this.client.get<Listing[]>(`/api/user/${userId}/listings`);
+  getListingsByUserId(): Observable<Listing[]> {
+    const { uid } = this.authService.getUser()!;
+    return this.client.get<Listing[]>(`/api/user/${uid}/listings`);
   }
 
   createListing(

@@ -16,11 +16,14 @@ export class AuthService {
   user$ = user(this.auth);
   userSubscription: Subscription;
   googleProvider = new GoogleAuthProvider();
+  token: string | null = null;
+  user: User | null = null;
 
   constructor() {
     this.userSubscription = this.user$.subscribe((aUser: User | null) => {
-      //handle user state changes here. Note, that user will be null if there is no currently logged in user.
-      console.log(aUser);
+      aUser?.getIdToken().then((token) => {
+        this.token = token;
+      });
     });
   }
 
@@ -28,13 +31,9 @@ export class AuthService {
     return signInWithPopup(this.auth, this.googleProvider).then(
       (result) => {
         console.log('User signed in:', result.user);
-        // this.router.navigateByUrl('/my-listings');
-        console.log('User signed in:', this.user$);
       },
       (error) => {
         console.error('Error signing in:', error);
-        // this.errorMessage = error.message;
-        // this.isLoading = false;
       }
     );
   }
@@ -44,10 +43,10 @@ export class AuthService {
   }
 
   getUser() {
-    return this.user$;
+    return this.auth.currentUser;
   }
 
   getAccessToken() {
-    return this.auth.currentUser?.getIdToken();
+    return this.token;
   }
 }
